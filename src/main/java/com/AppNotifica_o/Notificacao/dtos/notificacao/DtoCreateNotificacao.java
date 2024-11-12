@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public record DtoCreateNotificacao(
         @NotBlank(message = "Esta faltando o titulo")
@@ -16,6 +17,6 @@ public record DtoCreateNotificacao(
         @NotNull(message = "Data de envio e obrigatorio")
         LocalDateTime dataEnvio,
         @NotNull(message = "Falta o remetente")
-        Long remetente_id
+        UUID remetente_id
 ) {
 }

@@ -9,6 +9,6 @@ import java.util.Set;
 import java.util.UUID;
 
 public interface NotificacaoRepository extends JpaRepository<Notificacao, UUID> {
-    Page<Notificacao> findAllByRemetenteId(Long adminId, Pageable pageable);
-    Notificacao findByIdAndRemetenteId(Long notificacaoId,Long remetenteId);
+    Page<Notificacao> findAllByRemetenteId(UUID adminId, Pageable pageable);
+    Notificacao findByIdAndRemetenteId( UUID notificacaoId, UUID remetenteId);
 }

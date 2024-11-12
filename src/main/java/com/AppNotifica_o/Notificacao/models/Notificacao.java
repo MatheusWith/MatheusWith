@@ -34,4 +34,26 @@ public class Notificacao {
     @JoinColumn(name = "user_id")
     private Admin remetente;
     private Boolean cancelada;
+
+    public Notificacao(String titulo, String mensagem,String cursoMinistrado, String sala,String curso, LocalDateTime dataEnvio, Admin remetente) {
+        this.setTitulo(titulo);
+        this.setMensagem(mensagem);
+        if(cursoMinistrado != null) {
+            this.setCursoMinistrado(cursoMinistrado);
+        }
+        if (sala != null) {
+            this.setSala(sala);
+        }
+        if (curso != null) {
+            this.setCurso(curso);
+        }
+        this.setDataEnvio(dataEnvio);
+        this.setRemetente(remetente);
+        this.setCancelada(false);
+    }
+    public void cancelarEnvio() {
+        if (!this.getEnviado()) {
+            this.setCancelada(true);
+        }
+    }
 }
