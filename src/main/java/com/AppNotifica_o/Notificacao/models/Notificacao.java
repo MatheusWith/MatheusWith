@@ -35,7 +35,15 @@ public class Notificacao {
     private Admin remetente;
     private Boolean cancelada;
 
-    public Notificacao(String titulo, String mensagem,String cursoMinistrado, String sala,String curso, LocalDateTime dataEnvio, Admin remetente) {
+    public Notificacao(
+            String titulo,
+            String mensagem,
+            String cursoMinistrado,
+            String sala,
+            String curso,
+            LocalDateTime dataEnvio,
+            Admin remetente
+    ) {
         this.setTitulo(titulo);
         this.setMensagem(mensagem);
         if(cursoMinistrado != null) {
@@ -50,6 +58,7 @@ public class Notificacao {
         this.setDataEnvio(dataEnvio);
         this.setRemetente(remetente);
         this.setCancelada(false);
+        this.setEnviado(false);
     }
     public void cancelarEnvio() {
         if (!this.getEnviado()) {

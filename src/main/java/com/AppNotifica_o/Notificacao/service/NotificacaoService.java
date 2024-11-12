@@ -39,6 +39,7 @@ public class NotificacaoService {
 
     public DtoDetailNotificacao updateNotificacao(DtoUpdateNotificacao data) {
         var notificacao = this.notificacaoRepository.getReferenceById(data.id());
+        System.out.println(notificacao.getEnviado());
         if (!notificacao.getEnviado()){
             if (data.titulo() != null) {
                 notificacao.setTitulo(data.titulo());
@@ -67,6 +68,7 @@ public class NotificacaoService {
         var notificacao = this.notificacaoRepository.findByIdAndRemetenteId(notificacaoId,remetenteId);
         return new DtoDetailNotificacao(notificacao);
     }
+
     public Page<DtoListNotificacao> getAllNotificacao(UUID remetenteId, Pageable pageable) {
         return this.notificacaoRepository.findAllByRemetenteId(remetenteId,pageable).map(DtoListNotificacao::new);
     }

@@ -24,7 +24,6 @@ public class NotificacaoController {
     @PostMapping
     @Transactional
     public ResponseEntity create(@RequestBody @Valid DtoCreateNotificacao data) {
-        System.out.println("aqui");
         var notificacao = this.notificacaoService.createNotificacao(data);
         return ResponseEntity.ok(notificacao);
     }
