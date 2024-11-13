@@ -1,7 +1,6 @@
-version: "2.30.2"
+#version: "2.30"
 services:
-
-  db:
+  dbnotificacao:
     image: postgres
     ports:
       - '5433:5432'
@@ -13,6 +12,18 @@ services:
       - app_network
     volumes:
       - postgres-data:/var/lib/postgresql/data
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5673:5672"  # Porta de comunicação do RabbitMQ (AMQP)
+      - "15673:15672"  # Porta de acesso à interface web de administração
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest  # Usuário padrão
+      - RABBITMQ_DEFAULT_PASS=guest  # Senha padrão
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
 #  app:
 #    build:
 #      context: .
@@ -33,6 +44,8 @@ services:
 
 volumes:
   postgres-data:
+  rabbitmq_data:
+
 networks:
   app_network:
     driver: bridge

@@ -1,17 +1,28 @@
 package com.AppNotifica_o.Notificacao.service;
 
+import ch.qos.logback.core.util.FixedDelay;
 import com.AppNotifica_o.Notificacao.dtos.notificacao.DtoCreateNotificacao;
 import com.AppNotifica_o.Notificacao.dtos.notificacao.DtoDetailNotificacao;
 import com.AppNotifica_o.Notificacao.dtos.notificacao.DtoListNotificacao;
 import com.AppNotifica_o.Notificacao.dtos.notificacao.DtoUpdateNotificacao;
 import com.AppNotifica_o.Notificacao.models.Notificacao;
+import com.AppNotifica_o.Notificacao.producers.NotificacaoProducer;
 import com.AppNotifica_o.Notificacao.repository.AdminRepository;
 import com.AppNotifica_o.Notificacao.repository.NotificacaoRepository;
+import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 
@@ -77,4 +88,5 @@ public class NotificacaoService {
         var notificacao = this.notificacaoRepository.getReferenceById(id);
         notificacao.cancelarEnvio();
     }
+
 }
