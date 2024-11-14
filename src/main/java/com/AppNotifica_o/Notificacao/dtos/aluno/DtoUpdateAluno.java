@@ -12,7 +12,7 @@ public record DtoUpdateAluno(
         String login,
         String name,
         String password,
-        @Email
+        @Email(message = "O presente campo deve está no padrão do email")
         String email,
         String sala,
         String curso,

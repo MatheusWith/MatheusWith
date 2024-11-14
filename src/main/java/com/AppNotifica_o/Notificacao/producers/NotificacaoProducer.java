@@ -14,11 +14,13 @@ public class NotificacaoProducer {
 
     @Value("${broker.queue.email.name}")
     private String routingKey;
+    @Value("${meu.mail}")
+    private String email;
 
     public void publisherMessageEmail(Notificacao notificacao) {
-        String emailTo = "zerohzeta@gmail.com";
-        var data = new DtoEmailNotificacao(notificacao,emailTo);
+        var data = new DtoEmailNotificacao(notificacao,this.email);
         this.rabbitTemplate.convertAndSend("",this.routingKey,data);
+        System.out.println(data);
     }
 
 }

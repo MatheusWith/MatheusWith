@@ -6,6 +6,7 @@ import java.util.UUID;
 
 public record DtoEmailNotificacao(
         UUID id,
+        UUID remetenteId,
         String emailTo,
         String subject,
         String message
@@ -13,9 +14,11 @@ public record DtoEmailNotificacao(
     public DtoEmailNotificacao(Notificacao notificacao, String emailTo) {
         this(
                 notificacao.getId(),
+                notificacao.getRemetente().getId(),
                 emailTo,
                 notificacao.getTitulo(),
                 notificacao.getMensagem()
         );
     }
+
 }

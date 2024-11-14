@@ -12,7 +12,7 @@ public record DtoUpdateAdmin(
         String login,
         String name,
         String password,
-        @Email
+        @Email(message = "O presente campo deve estar no padrão do email")
         String email,
         Boolean active
 ) {

@@ -11,7 +11,7 @@ public record DtoUpdateProfessor(
         String login,
         String name,
         String password,
-        @Email
+        @Email(message = "O presente campo deve está no padrão do email")
         String email,
         String cursoMinistrado,
         Boolean active
