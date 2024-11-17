@@ -7,20 +7,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+
 @Component
 public class NotificacaoProducer {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @Value("${broker.queue.email.name}")
+    @Value("${broker.queue.notificacao.queue}")
     private String routingKey;
-    @Value("${meu.mail}")
+    @Value("${broker.queue.notificacao.exchange}")
+    private String exchange;
+    @Value("${meu.email}")
     private String email;
 
     public void publisherMessageEmail(Notificacao notificacao) {
         var data = new DtoEmailNotificacao(notificacao,this.email);
-        this.rabbitTemplate.convertAndSend("",this.routingKey,data);
-        System.out.println(data);
+        this.rabbitTemplate.convertAndSend(this.exchange,this.routingKey,data);
     }
 
 }

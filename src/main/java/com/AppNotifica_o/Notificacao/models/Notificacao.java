@@ -1,5 +1,6 @@
 package com.AppNotifica_o.Notificacao.models;
 
+import com.AppNotifica_o.Notificacao.enums.NotificacaoStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,9 +22,9 @@ public class Notificacao {
     private UUID id;
     @Column(nullable = false)
     private String titulo;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 500)
     private String mensagem;
-    private Boolean enviado;
+    private NotificacaoStatus status;
     @Column( name = "curso_ministrado")
     private String cursoMinistrado;
     private String sala;
@@ -33,17 +34,8 @@ public class Notificacao {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private Admin remetente;
-    private Boolean cancelada;
 
-    public Notificacao(
-            String titulo,
-            String mensagem,
-            String cursoMinistrado,
-            String sala,
-            String curso,
-            LocalDateTime dataEnvio,
-            Admin remetente
-    ) {
+    public Notificacao(String titulo, String mensagem, String cursoMinistrado, String sala, String curso, LocalDateTime dataEnvio, Admin remetente) {
         this.setTitulo(titulo);
         this.setMensagem(mensagem);
         if(cursoMinistrado != null) {
@@ -57,12 +49,13 @@ public class Notificacao {
         }
         this.setDataEnvio(dataEnvio);
         this.setRemetente(remetente);
-        this.setCancelada(false);
-        this.setEnviado(false);
+        this.setStatus(NotificacaoStatus.PENDENTE);
+
     }
+
     public void cancelarEnvio() {
-        if (!this.getEnviado()) {
-            this.setCancelada(true);
+        if (this.getStatus() != NotificacaoStatus.ENVIADA) {
+            this.setStatus(NotificacaoStatus.CANCELADA);
         }
     }
 }

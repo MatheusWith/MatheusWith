@@ -1,28 +1,18 @@
 package com.AppNotifica_o.Notificacao.service;
 
-import ch.qos.logback.core.util.FixedDelay;
 import com.AppNotifica_o.Notificacao.dtos.notificacao.DtoCreateNotificacao;
 import com.AppNotifica_o.Notificacao.dtos.notificacao.DtoDetailNotificacao;
 import com.AppNotifica_o.Notificacao.dtos.notificacao.DtoListNotificacao;
 import com.AppNotifica_o.Notificacao.dtos.notificacao.DtoUpdateNotificacao;
+import com.AppNotifica_o.Notificacao.enums.NotificacaoStatus;
 import com.AppNotifica_o.Notificacao.models.Notificacao;
-import com.AppNotifica_o.Notificacao.producers.NotificacaoProducer;
 import com.AppNotifica_o.Notificacao.repository.AdminRepository;
 import com.AppNotifica_o.Notificacao.repository.NotificacaoRepository;
-import jakarta.transaction.Transactional;
-import lombok.extern.slf4j.Slf4j;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 
@@ -50,25 +40,29 @@ public class NotificacaoService {
 
     public DtoDetailNotificacao updateNotificacao(DtoUpdateNotificacao data) {
         var notificacao = this.notificacaoRepository.getReferenceById(data.id());
-        System.out.println(notificacao.getEnviado());
-        if (!notificacao.getEnviado()){
+        if (notificacao.getStatus() != NotificacaoStatus.ENVIADA){
             if (data.titulo() != null) {
                 notificacao.setTitulo(data.titulo());
             }
             if (data.mensagem() != null) {
                 notificacao.setMensagem(data.mensagem());
+                notificacao.setStatus(NotificacaoStatus.PENDENTE);
             }
             if (data.cursoMinistrado() != null) {
                 notificacao.setCursoMinistrado(data.cursoMinistrado());
+                notificacao.setStatus(NotificacaoStatus.PENDENTE);
             }
             if (data.sala() != null) {
                 notificacao.setSala(data.sala());
+                notificacao.setStatus(NotificacaoStatus.PENDENTE);
             }
             if (data.curso() != null) {
                 notificacao.setCurso(data.curso());
+                notificacao.setStatus(NotificacaoStatus.PENDENTE);
             }
             if (data.dataEnvio() != null) {
                 notificacao.setDataEnvio(data.dataEnvio());
+                notificacao.setStatus(NotificacaoStatus.PENDENTE);
             }
             this.notificacaoRepository.save(notificacao);
         }

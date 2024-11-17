@@ -1,5 +1,6 @@
 package com.AppNotifica_o.Notificacao.dtos.notificacao;
 
+import com.AppNotifica_o.Notificacao.enums.NotificacaoStatus;
 import com.AppNotifica_o.Notificacao.models.Notificacao;
 
 import java.time.LocalDateTime;
@@ -9,7 +10,7 @@ public record DtoListNotificacao(
         UUID id,
         String titulo,
         String mensagem,
-        Boolean enviado,
+        NotificacaoStatus status,
         LocalDateTime dataEnvio
 
 ) {
@@ -18,7 +19,7 @@ public record DtoListNotificacao(
                 notificacao.getId(),
                 notificacao.getTitulo(),
                 notificacao.getMensagem(),
-                notificacao.getEnviado(),
+                notificacao.getStatus(),
                 notificacao.getDataEnvio()
         );
     }
