@@ -19,6 +19,7 @@ public class Curso {
     private UUID id;
     @OneToMany(mappedBy = "curso",orphanRemoval = true)
     private Set<Aluno> alunos;
+    @Column(nullable = false)
     private String curso;
 
     public Curso(String curso) {

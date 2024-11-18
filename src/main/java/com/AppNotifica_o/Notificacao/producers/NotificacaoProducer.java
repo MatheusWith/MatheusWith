@@ -20,8 +20,8 @@ public class NotificacaoProducer {
     @Value("${meu.email}")
     private String email;
 
-    public void publisherMessageEmail(Notificacao notificacao) {
-        var data = new DtoEmailNotificacao(notificacao,this.email);
+    public void publisherMessageEmail(Notificacao notificacao,String email) {
+        var data = new DtoEmailNotificacao(notificacao,email);
         this.rabbitTemplate.convertAndSend(this.exchange,this.routingKey,data);
     }
 

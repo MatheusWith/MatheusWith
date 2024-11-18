@@ -13,7 +13,7 @@ public record DtoUpdateProfessor(
         String password,
         @Email(message = "O presente campo deve está no padrão do email")
         String email,
-        String cursoMinistrado,
+        UUID cursoMinistradoId,
         Boolean active
 ) {
 }

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Table(name = "notificacoes")
@@ -23,27 +24,29 @@ public class Notificacao {
     @Column(nullable = false, length = 500)
     private String mensagem;
     private NotificacaoStatus status;
-    @Column( name = "curso_ministrado")
-    private String cursoMinistrado;
-    private String sala;
-    private String curso;
+    @Column( name = "curso_ministrados_ids")
+    private Set<UUID> cursosMinistradosIds;
+    @Column( name = "salas_ids")
+    private Set<UUID> salasIds;
+    @Column( name = "cursos_ids")
+    private Set<UUID> cursosIds;
     @Column(nullable = false, name = "data_envio")
     private LocalDateTime dataEnvio;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private Admin remetente;
 
-    public Notificacao(String titulo, String mensagem, String cursoMinistrado, String sala, String curso, LocalDateTime dataEnvio, Admin remetente) {
+    public Notificacao(String titulo, String mensagem, Set<UUID> cursosMinistradosIds, Set<UUID> salasIds, Set<UUID> cursosIds, LocalDateTime dataEnvio, Admin remetente) {
         this.setTitulo(titulo);
         this.setMensagem(mensagem);
-        if(cursoMinistrado != null) {
-            this.setCursoMinistrado(cursoMinistrado);
+        if(cursosMinistradosIds != null) {
+            this.setCursosMinistradosIds(cursosMinistradosIds);
         }
-        if (sala != null) {
-            this.setSala(sala);
+        if (salasIds != null) {
+            this.setSalasIds(salasIds);
         }
-        if (curso != null) {
-            this.setCurso(curso);
+        if (cursosIds != null) {
+            this.setCursosIds(cursosIds);
         }
         this.setDataEnvio(dataEnvio);
         this.setRemetente(remetente);

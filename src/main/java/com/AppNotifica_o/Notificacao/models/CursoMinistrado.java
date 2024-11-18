@@ -6,23 +6,24 @@ import lombok.*;
 import java.util.Set;
 import java.util.UUID;
 
+@Table(name = "cursos_ministrados")
 @Entity
-@Table(name = "salas")
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
-public class Sala {
+public class CursoMinistrado {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    @OneToMany(mappedBy = "sala",orphanRemoval = true)
-    private Set<Aluno> alunos;
+    @OneToMany(mappedBy = "cursoMinistrado",orphanRemoval = true)
+    private Set<Professor> professores;
     @Column(nullable = false)
-    private String sala;
+    private String cursoMinistrado;
 
-    public Sala(String sala) {
-        this.setSala(sala);
+    public CursoMinistrado(String cursoMinistrado) {
+        this.setCursoMinistrado(cursoMinistrado);
     }
+
 }

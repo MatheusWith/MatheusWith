@@ -4,6 +4,7 @@ import com.AppNotifica_o.Notificacao.enums.NotificacaoStatus;
 import com.AppNotifica_o.Notificacao.models.Notificacao;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 public record DtoDetailNotificacao(
@@ -11,9 +12,9 @@ public record DtoDetailNotificacao(
         String titulo,
         String mensagem,
         NotificacaoStatus status,
-        String cursoMinistrado,
-        String sala,
-        String curso,
+        Set<UUID> getCursoMinistradosIds,
+        Set<UUID> salasIds,
+        Set<UUID> cursosIds,
         LocalDateTime dataEnvio
 ) {
     public DtoDetailNotificacao(Notificacao notificacao) {
@@ -22,9 +23,9 @@ public record DtoDetailNotificacao(
                 notificacao.getTitulo(),
                 notificacao.getMensagem(),
                 notificacao.getStatus(),
-                notificacao.getCursoMinistrado(),
-                notificacao.getSala(),
-                notificacao.getCurso(),
+                notificacao.getCursosMinistradosIds(),
+                notificacao.getSalasIds(),
+                notificacao.getCursosIds(),
                 notificacao.getDataEnvio()
         );
     }

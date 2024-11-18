@@ -1,9 +1,7 @@
 package com.AppNotifica_o.Notificacao.models;
 
 import com.AppNotifica_o.Notificacao.enums.UserRole;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,10 +19,11 @@ import java.util.List;
 @Getter
 @Setter
 public class Professor extends User {
-    @Column(nullable = false, name = "curso_ministrado")
-    private String cursoMinistrado;
+    @ManyToOne
+    @JoinColumn(name = "curso_ministrado_id", nullable = false)
+    private CursoMinistrado cursoMinistrado;
 
-    public Professor(String login,String password,String name,String email,String cursoMinistrado) {
+    public Professor(String login,String password,String name,String email,CursoMinistrado cursoMinistrado) {
         this.setActive(true);
         this.setRole(UserRole.PROFESSOR);
         this.setLogin(login);

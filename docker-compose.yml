@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: notificacao
     networks:
-      - app_network
+      - app_network_notificacao
     volumes:
       - postgres-data:/var/lib/postgresql/data
   rabbitmq:
@@ -24,6 +24,18 @@ services:
       - RABBITMQ_PORT=5672
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
+  dbemail:
+    image: postgres
+    ports:
+      - '5434:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: email
+    networks:
+      - app_network_email
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
 #  app:
 #    build:
 #      context: .
@@ -48,4 +60,6 @@ volumes:
 
 networks:
   app_network:
+    driver: bridge
+  app_network_email:
     driver: bridge

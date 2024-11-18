@@ -28,9 +28,9 @@ public class NotificacaoService {
         Notificacao notificacao = new Notificacao(
                 data.titulo(),
                 data.mensagem(),
-                data.cursoMinistrado(),
-                data.sala(),
-                data.curso(),
+                data.cursosMinistradosIds(),
+                data.salasIds(),
+                data.cursosIds(),
                 data.dataEnvio(),
                 admin
         );
@@ -49,15 +49,15 @@ public class NotificacaoService {
                 notificacao.setStatus(NotificacaoStatus.PENDENTE);
             }
             if (data.cursoMinistrado() != null) {
-                notificacao.setCursoMinistrado(data.cursoMinistrado());
+                notificacao.setCursosMinistradosIds(data.cursoMinistrado());
                 notificacao.setStatus(NotificacaoStatus.PENDENTE);
             }
-            if (data.sala() != null) {
-                notificacao.setSala(data.sala());
+            if (data.salasIds() != null) {
+                notificacao.setSalasIds(data.salasIds());
                 notificacao.setStatus(NotificacaoStatus.PENDENTE);
             }
-            if (data.curso() != null) {
-                notificacao.setCurso(data.curso());
+            if (data.cursosIds() != null) {
+                notificacao.setCursosIds(data.cursosIds());
                 notificacao.setStatus(NotificacaoStatus.PENDENTE);
             }
             if (data.dataEnvio() != null) {

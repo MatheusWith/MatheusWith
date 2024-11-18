@@ -7,6 +7,6 @@ import java.util.Set;
 import java.util.UUID;
 
 public interface ProfessorRepository extends JpaRepository<Professor, UUID> {
-    Set<Professor> findByCursoMinistradoAndActiveTrue(String cursoMinistrado);
+    Set<Professor> findEmailByCursoMinistradoIdIn(Set<UUID> ids);
 
 }

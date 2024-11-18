@@ -4,7 +4,9 @@ import com.AppNotifica_o.Notificacao.dtos.professor.DtoCreateProfessor;
 import com.AppNotifica_o.Notificacao.dtos.professor.DtoDetailProfessor;
 import com.AppNotifica_o.Notificacao.dtos.professor.DtoListProfessor;
 import com.AppNotifica_o.Notificacao.dtos.professor.DtoUpdateProfessor;
+import com.AppNotifica_o.Notificacao.models.CursoMinistrado;
 import com.AppNotifica_o.Notificacao.models.Professor;
+import com.AppNotifica_o.Notificacao.repository.CursoMinistradoRepository;
 import com.AppNotifica_o.Notificacao.repository.ProfessorRepository;
 import com.AppNotifica_o.Notificacao.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +25,15 @@ public class ProfessorService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private CursoMinistradoRepository cursoMinistradoRepository;
+
     public DtoDetailProfessor createProfessor(DtoCreateProfessor data) {
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        Professor professor = new Professor(data.login(),encryptedPassword,data.name(),data.email(),data.cursoMinistrado());
+
+        CursoMinistrado cursoMinistrado = this.cursoMinistradoRepository.getReferenceById(data.cursoMinistradoId());
+
+        Professor professor = new Professor(data.login(),encryptedPassword,data.name(),data.email(),cursoMinistrado);
         this.professorRepository.save(professor);
         return new DtoDetailProfessor(professor);
     }
@@ -50,8 +58,9 @@ public class ProfessorService {
         if (data.active() != null) {
             professor.setActive(data.active());
         }
-        if (data.cursoMinistrado() != null) {
-            professor.setCursoMinistrado(data.cursoMinistrado());
+        if (data.cursoMinistradoId() != null) {
+            CursoMinistrado cursoMinistrado = this.cursoMinistradoRepository.getReferenceById(data.cursoMinistradoId());
+            professor.setCursoMinistrado(cursoMinistrado);
         }
 
         return new DtoDetailProfessor(this.professorRepository.save(professor));

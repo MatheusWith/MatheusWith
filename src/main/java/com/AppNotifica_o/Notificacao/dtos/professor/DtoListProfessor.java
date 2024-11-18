@@ -18,7 +18,7 @@ public record DtoListProfessor(
                 professor.getLogin(),
                 professor.getName(),
                 professor.getEmail(),
-                professor.getCursoMinistrado(),
+                professor.getCursoMinistrado().getCursoMinistrado(),
                 professor.getActive()
         );
     }
