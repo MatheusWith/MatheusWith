@@ -1,7 +1,6 @@
 package com.AppNotifica_o.Notificacao.dtos.aluno;
 
 
-import com.AppNotifica_o.Notificacao.models.Sala;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -20,7 +19,7 @@ public record DtoCreateAluno(
         String email,
         @NotNull(message = "O campo sala não pode estar vazio")
         UUID salaId,
-        @NotBlank(message = "O campo curso não pode estar vazio")
-        String curso
+        @NotNull(message = "O campo curso não pode estar vazio")
+        UUID cursoId
 ) {
 }

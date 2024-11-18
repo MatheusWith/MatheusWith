@@ -16,7 +16,7 @@ public record DtoUpdateAluno(
         @Email(message = "O presente campo deve está no padrão do email")
         String email,
         UUID salaId,
-        String curso,
+        UUID cursoId,
         Boolean active
 ) {
 }

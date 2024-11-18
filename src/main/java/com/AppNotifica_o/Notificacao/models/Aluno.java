@@ -20,11 +20,11 @@ public class Aluno extends User {
     @ManyToOne
     @JoinColumn(name = "sala_id",nullable = false)
     private Sala sala;
-    @Column(nullable = false)
-    private String curso;
+    @ManyToOne
+    @JoinColumn(name = "curso_id", nullable = false)
+    private Curso curso;
 
-    public Aluno(String login, String password, String name,String email,Sala sala,String curso) {
-        this.setActive(true);
+    public Aluno(String login, String password, String name,String email,Sala sala,Curso curso) {
         this.setRole(UserRole.ALUNO);
         this.setLogin(login);
         this.setPassword(password);

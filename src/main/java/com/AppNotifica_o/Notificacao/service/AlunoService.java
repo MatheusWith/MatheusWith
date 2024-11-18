@@ -5,8 +5,10 @@ import com.AppNotifica_o.Notificacao.dtos.aluno.DtoDetailAluno;
 import com.AppNotifica_o.Notificacao.dtos.aluno.DtoListAluno;
 import com.AppNotifica_o.Notificacao.dtos.aluno.DtoUpdateAluno;
 import com.AppNotifica_o.Notificacao.models.Aluno;
+import com.AppNotifica_o.Notificacao.models.Curso;
 import com.AppNotifica_o.Notificacao.models.Sala;
 import com.AppNotifica_o.Notificacao.repository.AlunoRepository;
+import com.AppNotifica_o.Notificacao.repository.CursoRepository;
 import com.AppNotifica_o.Notificacao.repository.SalaRespository;
 import com.AppNotifica_o.Notificacao.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +30,16 @@ public class AlunoService {
     @Autowired
     private SalaRespository salaRespository;
 
+    @Autowired
+    private CursoRepository cursoRepository;
+
     public DtoDetailAluno createAluno(DtoCreateAluno data) {
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
+
         Sala sala = this.salaRespository.getReferenceById(data.salaId());
-        Aluno aluno = new Aluno(data.login(),encryptedPassword,data.name(), data.email(),sala, data.curso());
+        Curso curso = this.cursoRepository.getReferenceById(data.cursoId());
+
+        Aluno aluno = new Aluno(data.login(),encryptedPassword,data.name(), data.email(),sala, curso);
         this.alunoRespository.save(aluno);
         return new DtoDetailAluno(aluno);
     }
@@ -59,6 +67,10 @@ public class AlunoService {
         if (data.salaId() != null) {
             Sala sala = this.salaRespository.getReferenceById(data.salaId());
             aluno.setSala(sala);
+        }
+        if (data.cursoId() != null) {
+            Curso curso = this.cursoRepository.getReferenceById(data.cursoId());
+            aluno.setCurso(curso);
         }
         this.alunoRespository.save(aluno);
         return new DtoDetailAluno(aluno);

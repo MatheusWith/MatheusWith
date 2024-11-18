@@ -21,7 +21,7 @@ public record DtoDetailAluno(
                 aluno.getName(),
                 aluno.getEmail(),
                 aluno.getSala().getSala(),
-                aluno.getCurso(),
+                aluno.getCurso().getCurso(),
                 aluno.getActive()
         );
     }

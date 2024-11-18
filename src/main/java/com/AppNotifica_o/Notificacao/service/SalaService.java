@@ -18,7 +18,7 @@ public class SalaService {
     @Autowired
     private SalaRespository salaRespository;
 
-    public DtoDetailSala crateSala(DtoCreateSala data) {
+    public DtoDetailSala createSala(DtoCreateSala data) {
         Sala sala = new Sala(data.sala());
         this.salaRespository.save(sala);
         return new DtoDetailSala(sala);

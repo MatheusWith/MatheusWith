@@ -25,7 +25,7 @@ public class SalaController {
     @PostMapping
     @Transactional
     public ResponseEntity create(@RequestBody @Valid DtoCreateSala data){
-        var sala = this.salaService.crateSala(data);
+        var sala = this.salaService.createSala(data);
         return ResponseEntity.ok(sala);
     }
 
