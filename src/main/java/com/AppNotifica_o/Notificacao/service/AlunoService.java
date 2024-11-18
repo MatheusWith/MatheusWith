@@ -61,7 +61,7 @@ public class AlunoService {
         if (data.email() != null) {
             aluno.setEmail(data.email());
         }
-        if (data.active() != aluno.getActive()) {
+        if (data.active() != null) {
             aluno.setActive(data.active());
         }
         if (data.salaId() != null) {

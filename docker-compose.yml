@@ -12,18 +12,6 @@ services:
       - app_network_notificacao
     volumes:
       - postgres-data:/var/lib/postgresql/data
-  rabbitmq:
-    image: rabbitmq:3-management
-    ports:
-      - "5673:5672"  # Porta de comunicação do RabbitMQ (AMQP)
-      - "15673:15672"  # Porta de acesso à interface web de administração
-    environment:
-      - RABBITMQ_DEFAULT_USER=guest  # Usuário padrão
-      - RABBITMQ_DEFAULT_PASS=guest  # Senha padrão
-      - RABBITMQ_HOST=rabbitmq
-      - RABBITMQ_PORT=5672
-    volumes:
-      - rabbitmq_data:/var/lib/rabbitmq
   dbemail:
     image: postgres
     ports:
@@ -36,23 +24,37 @@ services:
       - app_network_email
     volumes:
       - postgres-data:/var/lib/postgresql/data
-#  app:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    environment:
-#      - JDBC_URL=jdbc:postgresql://db:5432/notificacao
-#      - DB_USERNAME=postgres
-#      - DB_PASSWORD=postgres
-#      - SHOW_SQL=true
-#      - FORMAT_SQL=true
-#      - JWT_SECRET=bananaSegredo
-#    depends_on:
-#      - db
-#    networks:
-#      - app_network
-#    ports:
-#      - "8080:8080"
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5673:5672"  # Porta de comunicação do RabbitMQ (AMQP)
+      - "15673:15672"  # Porta de acesso à interface web de administração
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest  # Usuário padrão
+      - RABBITMQ_DEFAULT_PASS=guest  # Senha padrão
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+
+  app-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - JDBC_URL=jdbc:postgresql://db:5432/notificacao
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - SHOW_SQL=true
+      - FORMAT_SQL=true
+      - JWT_SECRET=bananaSegredo
+    depends_on:
+      - db
+    networks:
+      - app_network
+    ports:
+      - "8080:8080"
 
 volumes:
   postgres-data:

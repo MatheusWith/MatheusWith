@@ -48,7 +48,7 @@ public class AdminService {
         if (data.email() != null) {
             admin.setEmail(data.email());
         }
-        if (data.active() != admin.getActive()) {
+        if (data.active() != null) {
             admin.setActive(data.active());
         }
         this.adminRepository.save(admin);
