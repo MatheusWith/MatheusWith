@@ -1,8 +1,8 @@
-#version: "2.30"
 services:
 
   dbnotificacao:
     image: postgres
+    container_name: dbnotificacao
     ports:
       - '5433:5432'
     environment:
@@ -12,9 +12,10 @@ services:
     networks:
       - app_network_api
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - postgres-data-api:/var/lib/postgresql/data
 
   dbemail:
+    container_name: dbemail
     image: postgres
     ports:
       - '5434:5432'
@@ -25,9 +26,10 @@ services:
     networks:
       - app_network_email
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - postgres-data-email:/var/lib/postgresql/data
 
   rabbitmq:
+    container_name: rabbitmq
     image: rabbitmq:3-management
     ports:
       - "5673:5672"  # Porta de comunicação do RabbitMQ (AMQP)
@@ -41,6 +43,7 @@ services:
       - rabbitmq_data:/var/lib/rabbitmq
 
   app-api:
+    container_name: app-api
     build:
       context: .
       dockerfile: Dockerfile
@@ -67,7 +70,10 @@ services:
       - "8080:8080"
 
   app-email:
-    image: with/email-consumer:1.2
+    container_name: app-email
+    build:
+      context: ../email/.
+      dockerfile: Dockerfile
     environment:
       - JDBC_URL_EMAIL=jdbc:postgresql://dbemail:5432/email
       - DB_USERNAME=postgres
@@ -96,7 +102,8 @@ services:
     ports:
       - "8081:8080"
 volumes:
-  postgres-data:
+  postgres-data-api:
+  postgres-data-email:
   rabbitmq_data:
 
 networks:
