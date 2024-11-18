@@ -17,8 +17,6 @@ public class NotificacaoProducer {
     private String routingKey;
     @Value("${broker.queue.notificacao.exchange}")
     private String exchange;
-    @Value("${meu.email}")
-    private String email;
 
     public void publisherMessageEmail(Notificacao notificacao,String email) {
         var data = new DtoEmailNotificacao(notificacao,email);

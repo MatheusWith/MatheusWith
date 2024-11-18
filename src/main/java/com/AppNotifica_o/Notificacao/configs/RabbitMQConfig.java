@@ -1,7 +1,6 @@
 package com.AppNotifica_o.Notificacao.configs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

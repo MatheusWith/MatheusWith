@@ -1,5 +1,6 @@
 #version: "2.30"
 services:
+
   dbnotificacao:
     image: postgres
     ports:
@@ -9,9 +10,10 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: notificacao
     networks:
-      - app_network_notificacao
+      - app_network_api
     volumes:
       - postgres-data:/var/lib/postgresql/data
+
   dbemail:
     image: postgres
     ports:
@@ -24,6 +26,7 @@ services:
       - app_network_email
     volumes:
       - postgres-data:/var/lib/postgresql/data
+
   rabbitmq:
     image: rabbitmq:3-management
     ports:
@@ -37,31 +40,67 @@ services:
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
 
-
   app-api:
     build:
       context: .
       dockerfile: Dockerfile
     environment:
-      - JDBC_URL=jdbc:postgresql://db:5432/notificacao
+      - JDBC_URL_NOTIFICACAO=jdbc:postgresql://dbnotificacao:5432/notificacao
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres
       - SHOW_SQL=true
       - FORMAT_SQL=true
       - JWT_SECRET=bananaSegredo
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+      - QUEUE_EMAIL_NAME=notificacao.v1.notificacao-enviar
+      - EXCHANGE_EMAIL_NAME=notificacao.email
+      - PUBLISHER_NOTIFICACAO=60000
     depends_on:
-      - db
+      - dbnotificacao
+      - rabbitmq
     networks:
-      - app_network
+      - app_network_api
     ports:
       - "8080:8080"
 
+  app-email:
+    image: with/email-consumer:1.2
+    environment:
+      - JDBC_URL_EMAIL=jdbc:postgresql://dbemail:5432/email
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - SHOW_SQL=true
+      - FORMAT_SQL=true
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+      - QUEUE_EMAIL_NAME=notificacao.v1.notificacao-enviar
+      - QUEUE_EMAIL_NAME=notificacao.v1.notificacao-enviar.dlq
+      - EXCHANGE_EMAIL_NAME=notificacao.email
+      - EXCHANGE_EMAIL_NAME=notificacao.email.dlx
+      - MAIL_HOST=smtp.gmail.com
+      - MAIL_PORT=587
+      - MAIL_APP=naorespondattest@gmail.com
+      - MAIL_APP_PASSWORD=nmjp kugq jzum hyhu
+      - MAIL_SMTP_AUTH=true
+      - MAIL_SMTP_STARTTLS_ENABLE=true
+    depends_on:
+      - dbemail
+      - rabbitmq
+    networks:
+      app_network_email:
+    ports:
+      - "8081:8080"
 volumes:
   postgres-data:
   rabbitmq_data:
 
 networks:
-  app_network:
+  app_network_api:
     driver: bridge
   app_network_email:
     driver: bridge
