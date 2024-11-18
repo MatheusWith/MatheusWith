@@ -2,13 +2,8 @@ package com.AppNotifica_o.Notificacao.models;
 
 
 import com.AppNotifica_o.Notificacao.enums.UserRole;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -22,12 +17,13 @@ import java.util.List;
 @Setter
 @Entity
 public class Aluno extends User {
-    @Column(nullable = false)
-    private String sala;
+    @ManyToOne
+    @JoinColumn(name = "sala_id",nullable = false)
+    private Sala sala;
     @Column(nullable = false)
     private String curso;
 
-    public Aluno(String login, String password, String name,String email,String sala,String curso) {
+    public Aluno(String login, String password, String name,String email,Sala sala,String curso) {
         this.setActive(true);
         this.setRole(UserRole.ALUNO);
         this.setLogin(login);
@@ -36,6 +32,7 @@ public class Aluno extends User {
         this.setName(name);
         this.setSala(sala);
         this.setCurso(curso);
+        this.setActive(true);
     }
 
     @Override

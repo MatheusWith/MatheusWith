@@ -1,6 +1,7 @@
 package com.AppNotifica_o.Notificacao.dtos.aluno;
 
 
+import com.AppNotifica_o.Notificacao.models.Sala;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 
@@ -14,7 +15,7 @@ public record DtoUpdateAluno(
         String password,
         @Email(message = "O presente campo deve está no padrão do email")
         String email,
-        String sala,
+        UUID salaId,
         String curso,
         Boolean active
 ) {

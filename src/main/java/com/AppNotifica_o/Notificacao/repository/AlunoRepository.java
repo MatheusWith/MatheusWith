@@ -7,6 +7,4 @@ import java.util.Set;
 import java.util.UUID;
 
 public interface AlunoRepository extends JpaRepository<Aluno, UUID> {
-    Set<Aluno> findBySalaOrCursoAndActiveTrue(String sala, String curso);
-
 }

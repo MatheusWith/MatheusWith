@@ -2,10 +2,7 @@ package com.AppNotifica_o.Notificacao.models;
 
 import com.AppNotifica_o.Notificacao.enums.NotificacaoStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -16,6 +13,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Notificacao {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

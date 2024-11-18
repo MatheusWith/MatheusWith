@@ -5,7 +5,9 @@ import com.AppNotifica_o.Notificacao.dtos.aluno.DtoDetailAluno;
 import com.AppNotifica_o.Notificacao.dtos.aluno.DtoListAluno;
 import com.AppNotifica_o.Notificacao.dtos.aluno.DtoUpdateAluno;
 import com.AppNotifica_o.Notificacao.models.Aluno;
+import com.AppNotifica_o.Notificacao.models.Sala;
 import com.AppNotifica_o.Notificacao.repository.AlunoRepository;
+import com.AppNotifica_o.Notificacao.repository.SalaRespository;
 import com.AppNotifica_o.Notificacao.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,9 +25,13 @@ public class AlunoService {
     @Autowired
     private AlunoRepository alunoRespository;
 
+    @Autowired
+    private SalaRespository salaRespository;
+
     public DtoDetailAluno createAluno(DtoCreateAluno data) {
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        Aluno aluno = new Aluno(data.login(),encryptedPassword,data.name(), data.email(), data.sala(), data.curso());
+        Sala sala = this.salaRespository.getReferenceById(data.salaId());
+        Aluno aluno = new Aluno(data.login(),encryptedPassword,data.name(), data.email(),sala, data.curso());
         this.alunoRespository.save(aluno);
         return new DtoDetailAluno(aluno);
     }
@@ -50,8 +56,9 @@ public class AlunoService {
         if (data.active() != aluno.getActive()) {
             aluno.setActive(data.active());
         }
-        if (data.sala() != null) {
-            aluno.setSala(data.sala());
+        if (data.salaId() != null) {
+            Sala sala = this.salaRespository.getReferenceById(data.salaId());
+            aluno.setSala(sala);
         }
         this.alunoRespository.save(aluno);
         return new DtoDetailAluno(aluno);
